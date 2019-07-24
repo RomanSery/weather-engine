@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BF89BB80-11C3-4992-94B1-0932162C3A1B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WorldEditor</RootNamespace>
+    <AssemblyName>WorldEditor</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;ALLOWUNSAFE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BEPUphysics">
+      <HintPath>..\Framework\bin\BEPUphysics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=4.1.0.7920, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files (x86)\SlimDX SDK (January 2012)\Bin\net40\x86\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Controls\CellView.xaml.cs">
+      <DependentUpon>CellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ObjectWindow.xaml.cs">
+      <DependentUpon>ObjectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\D3DView.xaml.cs">
+      <DependentUpon>D3DView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Global\CustomWindow.cs" />
+    <Compile Include="Global\ObjectScale.xaml.cs">
+      <DependentUpon>ObjectScale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Global\ObjectRotation.xaml.cs">
+      <DependentUpon>ObjectRotation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Global\Time.xaml.cs">
+      <DependentUpon>Time.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Global\GlobalSettings.cs" />
+    <Compile Include="Global\NumericSpinner.xaml.cs">
+      <DependentUpon>NumericSpinner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Global\Position.xaml.cs">
+      <DependentUpon>Position.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_BoxLight.xaml.cs">
+      <DependentUpon>EditObject_BoxLight.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_Script.xaml.cs">
+      <DependentUpon>EditObject_Script.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_WeatherSetting.xaml.cs">
+      <DependentUpon>EditObject_WeatherSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_BloomSetting.xaml.cs">
+      <DependentUpon>EditObject_BloomSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_Shader.xaml.cs">
+      <DependentUpon>EditObject_Shader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\Edit_GameObjectReference.xaml.cs">
+      <DependentUpon>Edit_GameObjectReference.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_Cell.xaml.cs">
+      <DependentUpon>EditObject_Cell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_WorldSpace.xaml.cs">
+      <DependentUpon>EditObject_WorldSpace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_Model.xaml.cs">
+      <DependentUpon>EditObject_Model.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_AreaLight.xaml.cs">
+      <DependentUpon>EditObject_AreaLight.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_SpotLight.xaml.cs">
+      <DependentUpon>EditObject_SpotLight.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_PointLight.xaml.cs">
+      <DependentUpon>EditObject_PointLight.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_SkySetting.xaml.cs">
+      <DependentUpon>EditObject_SkySetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_SnowSetting.xaml.cs">
+      <DependentUpon>EditObject_SnowSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_RainSetting.xaml.cs">
+      <DependentUpon>EditObject_RainSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_WaterSetting.xaml.cs">
+      <DependentUpon>EditObject_WaterSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_Material.xaml.cs">
+      <DependentUpon>EditObject_Material.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\EditObject_GlobalVar.xaml.cs">
+      <DependentUpon>EditObject_GlobalVar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Rendering\CellViewer.cs" />
+    <Compile Include="Rendering\Gizmo.cs" />
+    <Compile Include="Rendering\Grid.cs" />
+    <Compile Include="Rendering\SlimDXScene.cs" />
+    <Compile Include="Rendering\D3DImageSlimDX.cs" />
+    <Page Include="Controls\CellView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ObjectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\D3DView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Global\ObjectScale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Global\ObjectRotation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Global\Time.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Global\NumericSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Global\Position.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainEditorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainEditorWindow.xaml.cs">
+      <DependentUpon>MainEditorWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Objects\EditObject_BoxLight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_Script.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_WeatherSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_BloomSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_Shader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\Edit_GameObjectReference.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_Cell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_WorldSpace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_Model.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_AreaLight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_SpotLight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_PointLight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_SkySetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_SnowSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_RainSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_WaterSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_Material.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\EditObject_GlobalVar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BuildContent\BuildContent.csproj">
+      <Project>{5EB2B581-8BEC-492E-9258-674066598D66}</Project>
+      <Name>BuildContent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColorPickerControl\ColorPickerControl.csproj">
+      <Project>{679D3C27-C216-4646-BCEE-181AC7043C8B}</Project>
+      <Name>ColorPickerControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{A46FA8CC-9142-4C95-87DC-C4A45EC590E9}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderLoop\RenderLoop.csproj">
+      <Project>{CF09C015-11D7-4E97-8A29-7FA4922C8A46}</Project>
+      <Name>RenderLoop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

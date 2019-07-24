@@ -1,0 +1,10 @@
+C:\roman\WeatherGame\RenderLoop\bin\x64\Debug\WeatherGame.RenderLoop.dll
+C:\roman\WeatherGame\RenderLoop\bin\x64\Debug\WeatherGame.RenderLoop.pdb
+C:\roman\WeatherGame\RenderLoop\bin\x64\Debug\SlimDX.dll
+C:\roman\WeatherGame\RenderLoop\bin\x64\Debug\SlimDX.pdb
+C:\roman\WeatherGame\RenderLoop\bin\x64\Debug\SlimDX.xml
+C:\roman\WeatherGame\RenderLoop\obj\x64\Debug\ResolveAssemblyReference.cache
+C:\roman\WeatherGame\RenderLoop\obj\x64\Debug\WeatherGame.RenderLoop.Properties.Resources.resources
+C:\roman\WeatherGame\RenderLoop\obj\x64\Debug\RenderLoop.csproj.GenerateResource.Cache
+C:\roman\WeatherGame\RenderLoop\obj\x64\Debug\WeatherGame.RenderLoop.dll
+C:\roman\WeatherGame\RenderLoop\obj\x64\Debug\WeatherGame.RenderLoop.pdb

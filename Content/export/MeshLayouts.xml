@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<meshes>
+
+  <mesh fileName="animBox.X" d3d10Layout="NormalMesh" d3d9Layout="NormalMesh"></mesh>
+  
+  <!--
+  <mesh fileName="block1.X" d3d10Layout="NormalMesh" d3d9Layout="NormalMesh"></mesh>
+  <mesh fileName="block1.X" d3d10Layout="NormalMesh" d3d9Layout="NormalMesh"></mesh>
+ <mesh fileName="cityGround.X" d3d10Layout="NormalMesh" d3d9Layout="NormalMesh"></mesh>
+  <mesh fileName="coorider.X" d3d10Layout="NormalMesh" d3d9Layout="NormalMesh"></mesh>
+-->
+
+  <!--   
+  <mesh fileName="box.X" d3d10Layout="PositionOnly4" d3d9Layout="PositionOnly4"></mesh>
+  <mesh fileName="sphere.X" d3d10Layout="PosTex4" d3d9Layout="PosTex4"></mesh>
+  <mesh fileName="cone.X" d3d10Layout="PosTex4" d3d9Layout="PosTex4"></mesh>
+  <mesh fileName="skyDomeClouds.X" d3d10Layout="NormalMesh" d3d9Layout="NormalMesh"></mesh>    
+  <mesh fileName="GizmoAxisTranslate.X" d3d10Layout="NormalMesh" d3d9Layout="NormalMesh"></mesh>    
+  -->
+  
+  
+  <!--
+  light_sphere  NormalMesh
+  gizmo NormalMesh GizmoAxisTranslate.X  
+  sphere PositionOnly4 sphere.X
+  skyDomeClouds NormalMesh skyDomeClouds.X
+  
+  
+  light_cone PosTex4
+  light_box PositionOnly4
+  light_target PositionOnly4 box.X
+  
+  
+  
+  
+  
+  -->
+  
+
+</meshes>

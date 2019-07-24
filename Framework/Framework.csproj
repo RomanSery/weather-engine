@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A46FA8CC-9142-4C95-87DC-C4A45EC590E9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WeatherGame.Framework</RootNamespace>
+    <AssemblyName>WeatherGame.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;ALLOWUNSAFE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BEPUphysics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31f6a8732a21de19">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\BEPUphysics.dll</HintPath>
+    </Reference>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files (x86)\SlimDX SDK (January 2012)\Bin\net40\x86\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\Keyboard.cs" />
+    <Compile Include="Mesh\AnimationController.cs" />
+    <Compile Include="Mesh\Mesh3d.cs" />
+    <Compile Include="Objects\AreaLight.cs" />
+    <Compile Include="Objects\Cell.cs" />
+    <Compile Include="Objects\BloomSetting.cs" />
+    <Compile Include="Objects\BoxLight.cs" />
+    <Compile Include="Objects\Npc.cs" />
+    <Compile Include="Objects\Script.cs" />
+    <Compile Include="Objects\WeatherSetting.cs" />
+    <Compile Include="Objects\Shader.cs" />
+    <Compile Include="Objects\WorldSpace.cs" />
+    <Compile Include="Player\MainPlayer.cs" />
+    <Compile Include="Objects\Model.cs" />
+    <Compile Include="Objects\GameObjectReference.cs" />
+    <Compile Include="Objects\SkySetting.cs" />
+    <Compile Include="Objects\GlobalVar.cs" />
+    <Compile Include="Objects\SpotLight.cs" />
+    <Compile Include="Objects\Light.cs" />
+    <Compile Include="Objects\PointLight.cs" />
+    <Compile Include="Objects\SnowSetting.cs" />
+    <Compile Include="Objects\WaterSetting.cs" />
+    <Compile Include="Objects\Material.cs" />
+    <Compile Include="Objects\BaseGameObject.cs" />
+    <Compile Include="Mesh\MeshInputElements.cs" />
+    <Compile Include="Objects\RainSetting.cs" />
+    <Compile Include="physics\Character\CharacterController.cs" />
+    <Compile Include="physics\Character\HorizontalMotionConstraint.cs" />
+    <Compile Include="physics\Character\QueryManager.cs" />
+    <Compile Include="physics\Character\StanceManager.cs" />
+    <Compile Include="physics\Character\StepManager.cs" />
+    <Compile Include="physics\Character\SupportFinder.cs" />
+    <Compile Include="physics\Character\VerticalMotionConstraint.cs" />
+    <Compile Include="physics\PhysicsEngine.cs" />
+    <Compile Include="Player\Camera.cs" />
+    <Compile Include="Player\PlayerInput.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\DeferredRenderer.cs" />
+    <Compile Include="Rendering\BloomEffect.cs" />
+    <Compile Include="Rendering\RenderingFunctions.cs" />
+    <Compile Include="Rendering\SpriteDrawer.cs" />
+    <Compile Include="Rendering\Utilites.cs" />
+    <Compile Include="Scripting\ScriptManager.cs" />
+    <Compile Include="Weather\Lightning.cs" />
+    <Compile Include="Weather\LensFlare.cs" />
+    <Compile Include="Weather\Snow.cs" />
+    <Compile Include="Weather\Rain.cs" />
+    <Compile Include="Weather\SkyDome.cs" />
+    <Compile Include="Objects\Interfaces.cs" />
+    <Compile Include="Weather\Wind.cs" />
+    <Compile Include="Weather\WorldTime.cs" />
+    <Compile Include="World\GameData.cs" />
+    <Compile Include="World\WorldData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RenderLoop\RenderLoop.csproj">
+      <Project>{CF09C015-11D7-4E97-8A29-7FA4922C8A46}</Project>
+      <Name>RenderLoop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

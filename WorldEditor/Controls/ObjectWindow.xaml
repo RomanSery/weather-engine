@@ -1,0 +1,95 @@
+﻿<Window x:Class="WorldEditor.Controls.ObjectWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WorldEditor.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Title="Object Window" Loaded="Window_Loaded">
+
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="10*" />            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"  />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0" Grid.Row="0" Margin="2">            
+            <TextBox Name="objectFitler" Width="80" HorizontalAlignment="Stretch" DockPanel.Dock="Top" />
+
+            <TreeView Name="objectTypes" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Background="White" BorderThickness="0" UseLayoutRounding="False" SelectedItemChanged="objectTypes_SelectedItemChanged">
+                <TreeView.Resources>
+                    <ContextMenu x:Key ="addContext"  StaysOpen="false">
+                        <MenuItem Header="New" Click="MenuItem_Click" />                        
+                    </ContextMenu>                   
+                </TreeView.Resources>
+                <TreeViewItem Header="Scripts" IsExpanded="True">
+                    <TreeViewItem Header="Lights" Tag="Script"></TreeViewItem>
+                    <TreeViewItem Header="General" Tag="Script"></TreeViewItem>
+                    <TreeViewItem Header="AI" Tag="Script"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Header="Rendering" IsExpanded="True">
+                    <TreeViewItem Header="Material" Tag="Material"></TreeViewItem>
+                    <TreeViewItem Header="Shader" Tag="Shader"></TreeViewItem>
+                    <TreeViewItem Header="BloomSetting" Tag="BloomSetting"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Header="Weather" IsExpanded="True">
+                    <TreeViewItem Header="WaterType" Tag="WaterSetting"></TreeViewItem>
+                    <TreeViewItem Header="RainType" Tag="RainSetting"></TreeViewItem>
+                    <TreeViewItem Header="SnowType" Tag="SnowSetting"></TreeViewItem>
+                    <TreeViewItem Header="SkyType" Tag="SkySetting"></TreeViewItem>
+                    <TreeViewItem Header="WeatherType" Tag="WeatherSetting"></TreeViewItem>                    
+                </TreeViewItem>
+                <TreeViewItem Header="WorldData" IsExpanded="True">
+                    <TreeViewItem Header="Global" Tag="GlobalVar"></TreeViewItem>
+                    <TreeViewItem Header="WaterType" Tag="WaterSetting"></TreeViewItem>                    
+                    <TreeViewItem Header="WorldSpace" Tag="WorldSpace"></TreeViewItem>
+                    <TreeViewItem Header="Cell" Tag="Cell"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Header="Light" IsExpanded="True">
+                    <TreeViewItem Header="Point" Tag="PointLight"></TreeViewItem>
+                    <TreeViewItem Header="Spot" Tag="SpotLight"></TreeViewItem>
+                    <TreeViewItem Header="Area" Tag="AreaLight"></TreeViewItem>
+                    <TreeViewItem Header="Box" Tag="BoxLight"></TreeViewItem>
+                </TreeViewItem>
+                
+                <TreeViewItem Header="WorldObjects" IsExpanded="True">                   
+                    <TreeViewItem Header="Static" IsExpanded="True">
+                        <TreeViewItem Header="Architecture" Tag="Model"></TreeViewItem>
+                        <TreeViewItem Header="Clutter" Tag="Model"></TreeViewItem>
+                        <TreeViewItem Header="Landscape" IsExpanded="True">
+                            <TreeViewItem Header="Roads" Tag="Model"></TreeViewItem>
+                        </TreeViewItem>
+                        <TreeViewItem Header="System" Tag="Model"></TreeViewItem>
+                    </TreeViewItem>                    
+                </TreeViewItem>
+                
+            </TreeView>
+        </DockPanel>
+
+        <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="0" ResizeBehavior="PreviousAndNext" Width="5" Background="#FFBCBCBC"/>
+
+        <DataGrid Grid.Column="2" Grid.Row="0" Name="objectsGrid" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="objectsGrid_MouseDoubleClick" 
+                  PreviewMouseLeftButtonDown="objectsGrid_PreviewMouseLeftButtonDown" PreviewMouseMove="objectsGrid_MouseMove" SelectionChanged="objectsGrid_SelectionChanged">
+            <DataGrid.Resources>
+                <ContextMenu x:Key ="deleteContext"  StaysOpen="false">
+                    <MenuItem Header="Delete" Click="MenuItem_DeleteClick" />
+                </ContextMenu>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding BaseObjectId}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Name" Binding="{Binding BaseObjectName}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1" Name="btnSaveData" Content="Save Data" Margin="5" Click="btnSaveData_Click" />        
+    </Grid>    
+    
+
+
+
+</Window>

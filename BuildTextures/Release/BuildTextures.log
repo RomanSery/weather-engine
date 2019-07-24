@@ -1,0 +1,62 @@
+﻿Build started 2/12/2011 12:34:23 PM.
+     1>Project "C:\roman\WeatherGame\BuildTextures\BuildTextures.vcxproj" on node 2 (rebuild target(s)).
+     1>PrepareForBuild:
+         Creating directory "C:\roman\WeatherGame\Release\".
+       InitializeBuildStatus:
+         Creating "Release\BuildTextures.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Release\BuildTextures.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /analyze- /errorReport:prompt Stdafx.cpp /clr:nostdlib 
+         Stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\BuildTextures.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /analyze- /errorReport:prompt AssemblyInfo.cpp BuildTextures.cpp Image.cpp /clr:nostdlib 
+         AssemblyInfo.cpp
+         BuildTextures.cpp
+     1>BuildTextures.cpp(71): warning C4482: nonstandard extension used: enum 'nvtt::Quality' used in qualified name
+     1>BuildTextures.cpp(82): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(82): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(82): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(82): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(84): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(84): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(84): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(84): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>BuildTextures.cpp(92): warning C4482: nonstandard extension used: enum 'nvtt::Quality' used in qualified name
+         Image.cpp
+         Generating Code...
+     1>c:\roman\weathergame\buildtextures\buildtextures.cpp(32): warning C4700: uninitialized local variable 'm_data' used
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /clr /nologo /W3 /WX- /O2 /Oy- /GL /D WIN32 /D NDEBUG /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /analyze- /errorReport:prompt "C:\Users\Roman\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
+         .NETFramework,Version=v4.0.AssemblyAttributes.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\app.res" app.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\roman\WeatherGame\Release\BuildTextures.dll" /INCREMENTAL:NO /NOLOGO /MANIFEST /ManifestFile:"Release\BuildTextures.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\roman\WeatherGame\Release\BuildTextures.pdb" /LTCG /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /DLL Release\app.res
+         Release\AssemblyInfo.obj
+         Release\BuildTextures.obj
+         Release\Image.obj
+         Release\Stdafx.obj
+         "Release\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::InputOptions::~InputOptions(void)" (??1InputOptions@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::OutputOptions::~OutputOptions(void)" (??1OutputOptions@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::CompressionOptions::~CompressionOptions(void)" (??1CompressionOptions@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::Compressor::~Compressor(void)" (??1Compressor@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: bool __thiscall nvtt::Compressor::process(struct nvtt::InputOptions const &,struct nvtt::CompressionOptions const &,struct nvtt::OutputOptions const &)const " (?process@Compressor@nvtt@@$$FQBE_NABUInputOptions@2@ABUCompressionOptions@2@ABUOutputOptions@2@@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::Compressor::Compressor(void)" (??0Compressor@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::CompressionOptions::setQuality(enum nvtt::Quality)" (?setQuality@CompressionOptions@nvtt@@$$FQAEXW4Quality@2@@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::CompressionOptions::setFormat(enum nvtt::Format)" (?setFormat@CompressionOptions@nvtt@@$$FQAEXW4Format@2@@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::CompressionOptions::CompressionOptions(void)" (??0CompressionOptions@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::OutputOptions::setFileName(char const *)" (?setFileName@OutputOptions@nvtt@@$$FQAEXPBD@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::OutputOptions::OutputOptions(void)" (??0OutputOptions@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: bool __thiscall nvtt::InputOptions::setMipmapData(void const *,int,int,int,int,int)" (?setMipmapData@InputOptions@nvtt@@$$FQAE_NPBXHHHHH@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::InputOptions::setTextureLayout(enum nvtt::TextureType,int,int,int)" (?setTextureLayout@InputOptions@nvtt@@$$FQAEXW4TextureType@2@HHH@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: __thiscall nvtt::InputOptions::InputOptions(void)" (??0InputOptions@nvtt@@$$FQAE@XZ)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::InputOptions::setNormalFilter(float,float,float,float)" (?setNormalFilter@InputOptions@nvtt@@$$FQAEXMMMM@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::InputOptions::setNormalizeMipmaps(bool)" (?setNormalizeMipmaps@InputOptions@nvtt@@$$FQAEX_N@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::InputOptions::setHeightEvaluation(float,float,float,float)" (?setHeightEvaluation@InputOptions@nvtt@@$$FQAEXMMMM@Z)
+     1>BuildTextures.obj : error LNK2001: unresolved external symbol "public: void __thiscall nvtt::InputOptions::setConvertToNormalMap(bool)" (?setConvertToNormalMap@InputOptions@nvtt@@$$FQAEX_N@Z)
+     1>C:\roman\WeatherGame\Release\BuildTextures.dll : fatal error LNK1120: 18 unresolved externals
+     1>Done Building Project "C:\roman\WeatherGame\BuildTextures\BuildTextures.vcxproj" (rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:03.44

@@ -1,0 +1,13 @@
+C:\roman\WeatherGame\BuildContent\bin\WeatherGame.BuildContent.exe.config
+C:\roman\WeatherGame\BuildContent\bin\WeatherGame.BuildContent.exe
+C:\roman\WeatherGame\BuildContent\bin\WeatherGame.BuildContent.pdb
+C:\roman\WeatherGame\BuildContent\bin\BuildTextures.dll
+C:\roman\WeatherGame\BuildContent\bin\WeatherGame.Framework.dll
+C:\roman\WeatherGame\BuildContent\bin\BEPUphysics.dll
+C:\roman\WeatherGame\BuildContent\bin\WeatherGame.RenderLoop.dll
+C:\roman\WeatherGame\BuildContent\bin\BuildTextures.pdb
+C:\roman\WeatherGame\BuildContent\bin\WeatherGame.Framework.pdb
+C:\roman\WeatherGame\BuildContent\bin\WeatherGame.RenderLoop.pdb
+C:\roman\WeatherGame\BuildContent\obj\Debug\ResolveAssemblyReference.cache
+C:\roman\WeatherGame\BuildContent\obj\Debug\WeatherGame.BuildContent.exe
+C:\roman\WeatherGame\BuildContent\obj\Debug\WeatherGame.BuildContent.pdb

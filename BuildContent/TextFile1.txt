@@ -1,0 +1,144 @@
+﻿ static void Main(string[] args)
+        {
+            using (D3D10.Device device = new D3D10.Device(D3D10.DeviceCreationFlags.None))
+            {
+                AssimpTest(device, "anita.X");
+            }
+            return;
+
+            if (args != null && args.Length > 0 && args[0].Contains(".X"))
+            {
+                //build single mesh from world editor
+                string meshName = args[0];
+
+                using (D3D10.Device device = new D3D10.Device(D3D10.DeviceCreationFlags.None))
+                {
+                    BuildSingleMesh(device, meshName);
+                }
+
+                return;
+            }
+
+            D3D10.Device d = new D3D10.Device(D3D10.DeviceCreationFlags.None);
+            
+            XmlDocument meshLayoutsDoc = new XmlDocument();
+            meshLayoutsDoc.Load(ConfigurationSettings.AppSettings["MeshLayouts"]);
+            
+            XmlNodeList nodes = meshLayoutsDoc.SelectNodes("//mesh");
+            foreach (XmlNode n in nodes)
+            {
+                string name = n.Attributes["fileName"].Value;                
+                string d3d9InputLayout = n.Attributes["d3d9Layout"].Value;                                
+                
+                D3D9.VertexElement[] vertDecl = (D3D9.VertexElement[])typeof(MeshInputElements9).GetField(d3d9InputLayout).GetValue(typeof(MeshInputElements9));
+                BuildMeshTextures(d, name, vertDecl);                
+            }
+
+
+            foreach (XmlNode n in nodes)
+            {
+                string name = n.Attributes["fileName"].Value;
+                string d3d10InputLayout = n.Attributes["d3d10Layout"].Value;
+                string d3d9InputLayout = n.Attributes["d3d9Layout"].Value;
+
+                InputElement[] ie = (InputElement[])typeof(MeshInputElements10).GetField(d3d10InputLayout).GetValue(typeof(MeshInputElements10));
+                D3D9.VertexElement[] vertDecl = (D3D9.VertexElement[])typeof(MeshInputElements9).GetField(d3d9InputLayout).GetValue(typeof(MeshInputElements9));
+                                
+                BuildMesh(d, name, ie, vertDecl);
+            }      
+
+
+            meshLayoutsDoc = null;
+            d.Dispose();
+        }
+
+        private static void BuildMeshTextures(D3D10.Device d, string name, D3D9.VertexElement[] vertDecl)
+        {
+            string fileName = ConfigurationSettings.AppSettings["ExportsFolder"] + name;
+            MeshHelper.BuildMeshTextures(d, fileName, vertDecl);            
+        }
+
+
+        private static void BuildMesh(D3D10.Device d, string name, InputElement[] ie, D3D9.VertexElement[] vertDecl)
+        {
+            Mesh3D m = MeshHelper.LoadFromFile(d, ConfigurationSettings.AppSettings["ExportsFolder"] + name, ie, vertDecl);
+            Stream stream = File.Open(ConfigurationSettings.AppSettings["ExportsFolder"] + name.Replace(".X", ".mesh"), FileMode.Create);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            if(m != null) bFormatter.Serialize(stream, m);
+            stream.Close();
+        }
+
+
+        public static void BuildSingleMesh(D3D10.Device d, string name)
+        {
+            //if(File.Exists(ConfigurationSettings.AppSettings["ExportsFolder"] + name.Replace(".X", ".mesh"))) return;
+
+            string d3d9InputLayout = "NormalMesh";
+            string d3d10InputLayout = "NormalMesh";
+            D3D9.VertexElement[] vertDecl = (D3D9.VertexElement[])typeof(MeshInputElements9).GetField(d3d9InputLayout).GetValue(typeof(MeshInputElements9));
+            BuildMeshTextures(d, name, vertDecl);            
+
+            InputElement[] ie = (InputElement[])typeof(MeshInputElements10).GetField(d3d10InputLayout).GetValue(typeof(MeshInputElements10));
+            BuildMesh(d, name, ie, vertDecl);         
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		internal static void BuildMeshTextures(Device device, string filename, D3D9.VertexElement[] vertDecl)
+        {
+            string sourceTextures = ConfigurationSettings.AppSettings["SourceTextures"];
+
+            D3D9.ExtendedMaterial[] pMat;            
+            using (D3D9.Mesh pMesh = GetD3D9Mesh(filename, out pMat, vertDecl))
+            {
+                if (pMesh == null || pMat == null || pMat.Length == 0) return;
+
+                foreach (D3D9.ExtendedMaterial mat in pMat)
+                {
+                    if (!string.IsNullOrEmpty(mat.TextureFileName))
+                    {
+                        string inputFilePath = mat.TextureFileName.Replace("\\\\","\\");
+                        string inputFileName = Path.GetFileName(inputFilePath);
+                        string ext = Path.GetExtension(inputFileName);
+                        string subFolder = inputFilePath.Replace(sourceTextures, "").Split('\\')[1];
+
+                        string diffOutFile = ConfigurationSettings.AppSettings["ProcessedTextures"] + "DiffuseTextures\\" + subFolder + "\\" + inputFileName.Replace(ext, ".dds");
+                        string normalMapOutFile = ConfigurationSettings.AppSettings["ProcessedTextures"] + "NormalMaps\\" + subFolder + "\\" + inputFileName.Replace(ext, ".dds");
+
+                        
+
+                        if (!Directory.Exists(Path.GetDirectoryName(diffOutFile)))
+                            Directory.CreateDirectory(Path.GetDirectoryName(diffOutFile));
+
+                        if (!Directory.Exists(Path.GetDirectoryName(normalMapOutFile)))
+                            Directory.CreateDirectory(Path.GetDirectoryName(normalMapOutFile));
+
+                        if (File.Exists(normalMapOutFile)) normalMapOutFile = null;
+                        if (File.Exists(diffOutFile)) diffOutFile = null;
+                        BuildTextures.TextureHelper.ProcessTexture(inputFilePath, diffOutFile, normalMapOutFile);                        
+                    }
+                }
+            }            
+        }        

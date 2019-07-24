@@ -1,0 +1,199 @@
+﻿
+    /*
+    [Serializable]
+    public class GameObjectRef : ISerializable, IPositionable
+    {
+        private Vector3 _pos;
+        private Matrix _rotation = Matrix.Identity;
+        public Vector3 RotationValues = Vector3.Zero;
+        public Vector3 _scale = new Vector3(1, 1, 1);
+
+        
+        public string Name;
+        
+        public Mesh3D mesh;
+        public int?[] MaterialIDs;
+        public Cell cellContainer;
+
+        //attributes
+        public bool IncludeInReflectionMap = false;
+        public bool UseReflectionMap = false;
+        public int? SelectedSubset = null;
+        public bool RecieveRainSplashes = true;
+        public bool RecieveSnow = true;
+        public bool Water = false;
+        public ReflectionBehavior ReflectionType = ReflectionBehavior.ZeroPlane;     
+
+        //physics
+        public Matrix entityTransform = Matrix.Identity;        
+        public bool staticMesh = true;
+        public BEPUphysics.ISpaceObject physicsObj = null;
+        public float Mass = 10;
+
+        public GameObjectRef(string file, string name, InputElement[] ie)
+        {
+            Stream stream = File.Open("../../Content/export/" + file, FileMode.Open);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            object[] context = new object[] { Game.Device, ie };
+            bFormatter.Context = new StreamingContext(StreamingContextStates.All, context);
+            mesh = (Mesh3D)bFormatter.Deserialize(stream);
+            stream.Close();
+            
+            mesh.inputElements = ie;        
+            mesh.meshFileName = file;
+            if (MaterialIDs == null) MaterialIDs = new int?[mesh.NumAttributes];
+            Name = name;
+            mesh.ComputeBoundingBox();            
+        }
+        public void UpdateMesh(string file, InputElement[] ie)
+        {
+            Stream stream = File.Open("../../Content/export/" + file, FileMode.Open);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            object[] context = new object[] { Game.Device, ie };
+            bFormatter.Context = new StreamingContext(StreamingContextStates.All, context);
+            mesh = (Mesh3D)bFormatter.Deserialize(stream);
+            stream.Close();
+
+            mesh.inputElements = ie;
+            mesh.meshFileName = file;
+            MaterialIDs = new int?[mesh.NumAttributes];            
+            mesh.ComputeBoundingBox();    
+        }
+
+        #region Serialization
+        public GameObjectRef(SerializationInfo info, StreamingContext ctxt)
+        {
+            string file = null;
+            Serilization.SetString(info, "MeshFileName", ref file);
+            Stream stream = File.Open("../../Content/export/" + file, FileMode.Open);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            object[] context = new object[] { Game.Device, MeshInputElements10.NormalMesh };
+            bFormatter.Context = new StreamingContext(StreamingContextStates.All, context);
+            mesh = (Mesh3D)bFormatter.Deserialize(stream);
+            stream.Close();
+
+            mesh.inputElements = MeshInputElements10.NormalMesh;
+            mesh.meshFileName = file;            
+            mesh.ComputeBoundingBox();                                          
+            
+                        
+            Serilization.SetString(info, "Name", ref Name);
+            Serilization.SetVector3(info, "Position", ref _pos);
+            Serilization.SetVector3(info, "RotationValues", ref RotationValues);
+            Serilization.SetVector3(info, "Scale", ref _scale);
+            Serilization.SetMatrix(info, "Rotation", ref _rotation);
+            Serilization.SetBoolean(info, "IncludeInReflectionMap", ref IncludeInReflectionMap);
+            Serilization.SetBoolean(info, "UseReflectionMap", ref UseReflectionMap);
+            Serilization.SetBoolean(info, "RecieveRainSplashes", ref RecieveRainSplashes);
+            Serilization.SetBoolean(info, "RecieveSnow", ref RecieveSnow);
+            Serilization.SetBoolean(info, "Water", ref Water);
+            Serilization.SetBoolean(info, "staticMesh", ref staticMesh);
+            Serilization.SetFloat(info, "Mass", ref Mass);            
+
+            try
+            {
+                cellContainer = (Cell)info.GetValue("cellContainer", typeof(Cell));
+            }
+            catch { }
+
+            try
+            {
+                ReflectionType = (ReflectionBehavior)Enum.Parse(typeof(ReflectionBehavior), info.GetString("ReflectionType"));
+            }
+            catch { }
+
+            try
+            {
+                MaterialIDs = (int?[])info.GetValue("MaterialIDs", typeof(int?[]));
+            }
+            catch { }
+            if(MaterialIDs == null)
+                MaterialIDs = new int?[mesh.NumAttributes];     
+            else if(MaterialIDs.Length != mesh.NumAttributes)
+            {
+                int?[] NewMaterialIDs = new int?[mesh.NumAttributes];
+                for (int i = 0; i < mesh.NumAttributes; i++)
+                {                    
+                    if (i >= MaterialIDs.Length)
+                        NewMaterialIDs[i] = null;
+                    else
+                        NewMaterialIDs[i] = MaterialIDs[i];
+                }
+                MaterialIDs = NewMaterialIDs;
+            }
+
+            //AnimationHelpers.InitMeshAnimation("../../Content/export/" + file.Replace(".mesh",".X"), this);
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            info.AddValue("MeshFileName", mesh.meshFileName);
+            info.AddValue("Name", Name);
+            info.AddValue("Position", Position);
+            info.AddValue("Scale", Scale);
+            info.AddValue("Rotation", Rotation);
+            info.AddValue("RotationValues", RotationValues);
+            info.AddValue("IncludeInReflectionMap", IncludeInReflectionMap);
+            info.AddValue("UseReflectionMap", UseReflectionMap);
+            info.AddValue("RecieveRainSplashes", RecieveRainSplashes);
+            info.AddValue("RecieveSnow", RecieveSnow);
+            info.AddValue("Water", Water);
+            info.AddValue("MaterialIDs", MaterialIDs);
+            info.AddValue("ReflectionType", ReflectionType.ToString());
+            info.AddValue("staticMesh", staticMesh);
+            info.AddValue("cellContainer", cellContainer);
+            info.AddValue("Mass", Mass);     
+        }
+        #endregion
+
+        public void Dispose()
+        {
+            if(mesh != null) mesh.Dispose();              
+        }
+
+    
+
+
+
+        public void Update()
+        {            
+          
+        }
+
+     
+
+
+     
+        public Vector3 Position
+        {
+            get { return _pos; }
+            set 
+            { 
+                _pos = value;
+                PhysicsEngine.UpdateMeshMatrix(this);
+            }
+        }
+        public Vector3 Scale
+        {
+            get { return _scale; }
+            set 
+            { 
+                _scale = value;
+                PhysicsEngine.UpdateMeshMatrix(this);
+            }
+        }
+        public Matrix Rotation
+        {
+            get { return _rotation; }
+            set 
+            { 
+                _rotation = value;
+                PhysicsEngine.UpdateMeshMatrix(this);
+            }
+        }
+        public Mesh MeshObj
+        {
+            get { return mesh.meshObj; }
+        }
+      
+    }
+    */

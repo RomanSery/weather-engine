@@ -1,0 +1,28 @@
+﻿<src:CustomWindow x:Class="WorldEditor.MainEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WorldEditor.Controls"
+        xmlns:src="clr-namespace:WorldEditor.Global"  
+        Width="1280" Height="1024" Title="Payne3D Editor" Initialized="Window_Initialized" Closing="Window_Closing" MouseMove="Window_MouseMove" Loaded="Window_Loaded" MouseRightButtonUp="Window_MouseRightButtonUp">
+    <Grid Name="grid1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <local:MainMenu x:Name="mainMenu" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" />
+
+        <local:D3DView x:Name="view1" Grid.Column="0" Grid.Row="1" Width="1024" Height="768" MouseDown="view1_MouseDown" MouseUp="view1_MouseUp" Background="Black" />
+        <!-- Width="1440" Height="900" -->
+        <!--<local:ObjectWindow x:Name="objWindow" Grid.Column="1" Grid.Row="1" IsManipulationEnabled="True" />-->
+
+
+        
+    </Grid>
+</src:CustomWindow>

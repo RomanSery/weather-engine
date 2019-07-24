@@ -1,0 +1,66 @@
+﻿<Window x:Class="WorldEditor.Controls.CellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WorldEditor.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600" Title="Cell view" Loaded="Window_Loaded">
+
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="90*" />            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"  />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0" Grid.Row="0">
+            <Label Content="World Space" DockPanel.Dock="Left" />
+            <ComboBox Name="ddlWorld" DockPanel.Dock="Right" SelectionChanged="ddlWorld_SelectionChanged" />
+        </DockPanel>
+
+        <DockPanel Grid.Column="2" Grid.Row="0">
+            <Label Name="cellNameStr" Content="Cell name" DockPanel.Dock="Left" />
+            <TextBox Name="objectFilter" DockPanel.Dock="Right"  />
+        </DockPanel>
+        
+
+
+        <DataGrid Grid.Column="0" Grid.Row="1" Name="cellsGrid" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="cellsGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding BaseObjectId}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Name" Binding="{Binding BaseObjectName}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Pos" Binding="{Binding CellPos}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        
+
+        <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1" ResizeBehavior="PreviousAndNext" Width="5" Background="#FFBCBCBC"/>
+
+        <DataGrid Grid.Column="2" Grid.Row="1" Name="objectsGrid" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="objectsGrid_MouseDoubleClick"
+                      Drop="DropList_Drop"  DragEnter="DropList_DragEnter"  AllowDrop="True" SelectionChanged="objectsGrid_SelectionChanged">
+            <DataGrid.Resources>
+                <ContextMenu x:Key ="deleteContext"  StaysOpen="false">
+                    <MenuItem Header="Delete" Click="MenuItem_DeleteClick" />
+                </ContextMenu>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="BaseObjId" Binding="{Binding BaseObjectId}" IsReadOnly="True" />
+                <DataGridTextColumn Header="RefId" Binding="{Binding RefId}" IsReadOnly="True" />
+                <DataGridTextColumn Header="RefName" Binding="{Binding RefName}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Type" Binding="{Binding BaseObjectType}" IsReadOnly="True" />                
+            </DataGrid.Columns>
+        </DataGrid>
+
+        
+    </Grid>    
+    
+
+
+
+</Window>

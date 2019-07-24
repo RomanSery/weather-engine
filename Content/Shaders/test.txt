@@ -1,0 +1,200 @@
+﻿#include "common.inc" 
+#include "materials.inc"
+
+float g_timeCycle;
+float g_splashXDisplace;
+float g_splashYDisplace;
+float4x4 matSplashScale;
+float g_KsDir = 1.4f;
+
+bool renderRainSplashes, matRainSplashes;
+bool UseReflectionMap;
+float4x4 ReflectionView;
+int MaterialID;
+
+Texture2D colorMap;
+Texture2D normalMap;
+Texture2D positionMap;
+Texture2D depthMap;
+Texture2D depthMap2;
+Texture2D reflectionMap;
+
+float scroll;
+float scroll2;
+float scroll3;
+float scroll4;
+float shoreFalloff;
+float shoreScale;     
+float speed;
+float reflectionFactorOffset;
+
+struct VsIn
+{	
+    float4 position : Position;
+	float2 texCoord : TexCoord;
+	float3 tangent  : Tangent;
+	float3 binormal : Binormal;
+	float3 normal   : Normal;
+};
+
+
+struct PsIn
+{	
+	centroid float4 position : SV_Position;	
+	float3 tangent  : Tangent;
+	float3 binormal : Binormal;
+	float3 normal   : Normal;
+	float2 texCoord : TexCoord0;
+	float4 PosView	: TexCoord1;
+	
+	float4 PosWorld	: Position1;
+	float4 worldPos : Position2;	    			
+	float4 ReflectionMapSamplingPos : Position3;
+	float3 WorldNormal : Normal2;	
+	float y : TEXCOORD2;		
+	float sVal   : TEXCOORD3;   		
+	float reflectionAmt   : TEXCOORD4; 	
+	float  fDepthVS     : TEXCOORD5;
+	
+	float2 texCoord2	: TEXCOORD6;   	
+	float2 texCoord3	: TEXCOORD7;
+	float depth : DEPTH0;	
+};
+
+
+
+SamplerState samWater
+{
+  Filter = MIN_MAG_MIP_POINT;
+    AddressU = Clamp;
+    AddressV = Clamp;
+	AddressW = Clamp;
+};
+
+PsIn VS_Water( VsIn input )
+{
+	PsIn Out = (PsIn)0;
+	
+	Out.position = mul( input.position, WorldViewProj );				
+	Out.ReflectionMapSamplingPos = mul(input.position, WorldViewProj);
+	Out.PosWorld = mul(input.position, World);	
+	Out.PosView = mul(input.position, WorldView);	
+		
+	Out.tangent   = mul( input.tangent, (float3x3)WorldView );			
+	Out.normal   = mul( input.normal, (float3x3)WorldView );		
+	Out.binormal   = mul( input.binormal, (float3x3)WorldView );
+	
+	Out.WorldNormal   = mul( input.normal, World );		
+	Out.y = input.normal.y;	
+	Out.worldPos = mul( input.position, matSplashScale );
+	
+	
+	Out.texCoord = input.texCoord;
+	Out.texCoord2 = input.texCoord;
+	Out.texCoord3 = input.texCoord;		
+	
+	//Out.texCoord.y -= (scroll2) * (speed);            
+    //Out.texCoord.x -= (scroll) * (speed);     
+	
+	Out.texCoord2.y += (scroll) * (speed);            
+    Out.texCoord2.x += (scroll2) * (speed);         
+
+	Out.texCoord3.y += (scroll3) * (speed);            
+    Out.texCoord3.x -= (scroll4) * (speed);         
+	
+	return Out;
+}
+
+float FresnelApproximation(float3 lightDir, float3 normal)
+{
+    float3 reflectedViewDir = -reflect(lightDir, normal);
+ 
+    float viewDotNorm = abs(dot(lightDir, normal));
+    float fresnelFactor = 1 - pow(viewDotNorm, 0.5);
+ 
+    return saturate(fresnelFactor + reflectionFactorOffset);
+}
+
+struct PsOut {	
+	float4 base   : SV_Target0;
+	float4 normal : SV_Target1; //.a = MaterialID	
+};
+
+PsOut PS_Water( PsIn In )
+{
+	PsOut Out;	
+	
+	
+	
+	int3 coords = int3(int2(In.position.xy), 0);				
+	//float sceneViewZ = normalMap.Load(coords,0).z;
+	//float sceneViewZ = depthMap.Load(coords, 0).r;		
+	//float waterViewZ = length(In.PosView) / 1000;
+	//float depthRange = (sceneViewZ - waterViewZ);
+    //float alpha = saturate( max(pow(depthRange , shoreFalloff) * 1000 * shoreScale, 0) );
+
+	float3 N = normalMap.Sample(BaseSampler, In.texCoord).xyz * 2.0f - 1.0f;
+	//N += normalMap.Sample(BaseSampler, In.texCoord2).xyz * 2.0f - 1.0f;	
+	//N += normalMap.Sample(BaseSampler, In.texCoord3).xyz * 2.0f - 1.0f;		
+	
+	
+	
+	//coords = int3(int2(In.position.xy + (N * 80)), 0);	
+	float4 baseColor = colorMap.Sample(BaseSampler, In.texCoord);
+		
+	//In.ReflectionMapSamplingPos.xy += (N * 10); 
+
+	float3x3 BTNMatrix =  float3x3( In.tangent, In.binormal, In.normal );		
+	N = normalize(mul(N, BTNMatrix ));	
+	N = normalize(N);
+
+	//float2 ProjectedTexCoords;
+	//ProjectedTexCoords.x = In.ReflectionMapSamplingPos.x/In.ReflectionMapSamplingPos.w/2.0f + 0.5f;
+	//ProjectedTexCoords.y = -In.ReflectionMapSamplingPos.y/In.ReflectionMapSamplingPos.w/2.0f + 0.5f;	
+	//float3 reflectionColor = reflectionMap.Sample(samWater, ProjectedTexCoords).rgb;				
+	
+	//float3 viewVector = normalize(In.PosWorld - cameraPosition);
+	//float reflectionFactor = FresnelApproximation(viewVector, normalize(In.WorldNormal));
+	float3 finalColor = baseColor;//lerp(baseColor, reflectionColor, reflectionFactor * alpha );					
+	
+	Out.base = baseColor;//float4(finalColor, 1);		
+	//Out.normal.xyz = N;
+	Out.normal.xy = encode_normal(N);
+	//Out.normal.z = length(In.PosView.xyz) / 1000.0f;
+	Out.normal.w = MaterialID;
+	return Out;
+}
+
+
+
+
+BlendState AlphaBlending
+{
+    BlendEnable[0] = TRUE;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
+    SrcBlendAlpha = ZERO;
+    DestBlendAlpha = DEST_ALPHA;
+    BlendOpAlpha = ADD;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+
+
+technique10 RenderWater
+{
+	pass P0
+	{
+		SetGeometryShader( 0 );
+		SetVertexShader( CompileShader( vs_4_0, VS_Water() ) );
+		SetPixelShader( CompileShader( ps_4_0, PS_Water() ) );		
+		
+		//BS_NoBlending
+		SetRasterizerState( RS_NormalSolid );		
+		SetDepthStencilState( DS_EnableDepth, 0 );
+		SetBlendState( BS_NoBlending, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );		
+		
+        //SetBlendState( AlphaBlending, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );		
+	}	
+}
+

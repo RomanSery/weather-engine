@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="WorldEditor.Controls.TimePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Height="23" Width="131" Loaded="UserControl_Loaded">
+    <Canvas Height="22" Width="58">
+        <TextBox HorizontalAlignment="Center" Name="txtValue" VerticalAlignment="Center" Width="122" Canvas.Left="-36" Canvas.Top="0" IsReadOnly="True" />
+        <Button Content="" Height="22" HorizontalAlignment="Left" Margin="174,139,0,0" Name="btnScrubber" VerticalAlignment="Top" Width="8" FontSize="4" FontWeight="Bold" Canvas.Left="-88" Canvas.Top="-139" MouseDown="btnScrubber_MouseDown" MouseUp="btnScrubber_MouseUp" />
+    </Canvas>
+</UserControl>

@@ -1,0 +1,14 @@
+C:\roman\WeatherGame\Main\bin\WeatherGame.Main.exe.config
+C:\roman\WeatherGame\Main\bin\WeatherGame.Main.exe
+C:\roman\WeatherGame\Main\bin\WeatherGame.Main.pdb
+C:\roman\WeatherGame\Main\bin\SlimDX.dll
+C:\roman\WeatherGame\Main\bin\WeatherGame.Framework.dll
+C:\roman\WeatherGame\Main\bin\WeatherGame.RenderLoop.dll
+C:\roman\WeatherGame\Main\bin\BEPUphysics.dll
+C:\roman\WeatherGame\Main\bin\WeatherGame.Framework.pdb
+C:\roman\WeatherGame\Main\bin\WeatherGame.RenderLoop.pdb
+C:\roman\WeatherGame\Main\bin\SlimDX.pdb
+C:\roman\WeatherGame\Main\bin\SlimDX.xml
+C:\roman\WeatherGame\Main\obj\Debug\ResolveAssemblyReference.cache
+C:\roman\WeatherGame\Main\obj\Debug\WeatherGame.Main.exe
+C:\roman\WeatherGame\Main\obj\Debug\WeatherGame.Main.pdb

@@ -1,0 +1,7 @@
+C:\roman\WeatherGame\Framework\bin\WeatherGame.GameFramework.dll
+C:\roman\WeatherGame\Framework\bin\WeatherGame.GameFramework.pdb
+C:\roman\WeatherGame\Framework\obj\Debug\ResolveAssemblyReference.cache
+C:\roman\WeatherGame\Framework\obj\Debug\WeatherGame.GameFramework.Properties.Resources.resources
+C:\roman\WeatherGame\Framework\obj\Debug\Framework.csproj.GenerateResource.Cache
+C:\roman\WeatherGame\Framework\obj\Debug\WeatherGame.GameFramework.dll
+C:\roman\WeatherGame\Framework\obj\Debug\WeatherGame.GameFramework.pdb

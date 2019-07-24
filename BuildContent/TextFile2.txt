@@ -1,0 +1,364 @@
+﻿private float origRadius;
+public float ExpandAmount = 0.1f;
+public float MinRadius = 5.0f;
+private bool dir = false;
+
+public override void Execute(GameObjectReference objRef)
+{	
+    if (dir)
+		objRef.MaxRange += ExpandAmount;
+	else
+		objRef.MaxRange -= ExpandAmount;
+
+    if (objRef.MaxRange <= MinRadius || objRef.MaxRange >= origRadius) //toggle dir
+	    dir = !dir;                 
+}
+public override void AssignScript(GameObjectReference objRef)
+{
+	origRadius = objRef.MaxRange;  
+	if(args != null)
+	{
+		if(args.Length > 0) {
+			try { 
+				ExpandAmount = (float)Convert.ToDouble(args[0]);
+			} catch {}
+		}
+		if(args.Length > 1) {
+			try { 
+				MinRadius = (float)Convert.ToDouble(args[1]);
+			} catch {}
+		}
+	}	
+}
+public override void UnAssignScript(GameObjectReference objRef)
+{
+	objRef.MaxRange = origRadius;                   
+}
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Configuration;
+
+using SlimDX;
+using DXGI = SlimDX.DXGI;
+using SlimDX.Direct3D10;
+using D3D9 = SlimDX.Direct3D9;
+using WeatherGame.Framework;
+using WeatherGame.Framework.Animation;
+using BuildTextures;
+
+namespace WeatherGame.BuildContent
+{
+    internal static class MeshHelper
+    {
+
+        internal static void BuildMeshTextures(Device device, Assimp.Scene model)
+        {
+            string sourceTextures = ConfigurationSettings.AppSettings["SourceTextures"];
+
+            if (model.HasMaterials)
+            {
+                foreach (Assimp.Material mat in model.Materials)
+                {
+                    if (mat.GetTextureCount(Assimp.TextureType.Diffuse) > 0)
+                    {
+                        string texFilePath = mat.GetTexture(Assimp.TextureType.Diffuse, 0).FilePath;
+                        if (!string.IsNullOrEmpty(texFilePath))
+                        {
+                            string inputFilePath = texFilePath.Replace("\\\\", "\\");
+                            string inputFileName = Path.GetFileName(inputFilePath);
+                            string ext = Path.GetExtension(inputFileName);
+                            string subFolder = inputFilePath.Replace(sourceTextures, "").Split('\\')[1];
+
+                            string diffOutFile = ConfigurationSettings.AppSettings["ProcessedTextures"] + "DiffuseTextures\\" + subFolder + "\\" + inputFileName.Replace(ext, ".dds");
+                            string normalMapOutFile = ConfigurationSettings.AppSettings["ProcessedTextures"] + "NormalMaps\\" + subFolder + "\\" + inputFileName.Replace(ext, ".dds");
+
+
+
+                            if (!Directory.Exists(Path.GetDirectoryName(diffOutFile)))
+                                Directory.CreateDirectory(Path.GetDirectoryName(diffOutFile));
+
+                            if (!Directory.Exists(Path.GetDirectoryName(normalMapOutFile)))
+                                Directory.CreateDirectory(Path.GetDirectoryName(normalMapOutFile));
+
+                            if (File.Exists(normalMapOutFile)) normalMapOutFile = null;
+                            if (File.Exists(diffOutFile)) diffOutFile = null;
+                            BuildTextures.TextureHelper.ProcessTexture(inputFilePath, diffOutFile, normalMapOutFile);
+                        }
+                        
+                    }
+                }
+            }                                
+        }        
+
+
+
+        internal static Mesh3D LoadFromFile(Device device, string filename, InputElement[] ie, D3D9.VertexElement[] vertDecl)
+        {
+            string sourceTextures = ConfigurationSettings.AppSettings["SourceTextures"];
+            D3D9.ExtendedMaterial[] pMat;
+            Mesh3D gm = new Mesh3D();
+            
+            D3D9.Mesh pMesh = GetD3D9Mesh(filename, out pMat, vertDecl);
+            if (pMesh == null) return null;            
+
+            int m_dwNumIndices = pMesh.FaceCount * 3;
+            Mesh output = new Mesh(device, ie, ie[0].SemanticName, pMesh.VertexCount, m_dwNumIndices / 3, MeshFlags.None);
+
+            #region Copy buffers
+            using (DataStream pData = pMesh.LockVertexBuffer(D3D9.LockFlags.ReadOnly))
+            {
+                output.SetVertexData(0, pData);
+                pMesh.UnlockVertexBuffer();
+            }
+            using (DataStream pData = pMesh.LockIndexBuffer(D3D9.LockFlags.ReadOnly))
+            {
+                output.SetIndexData(pData, m_dwNumIndices);
+                pMesh.UnlockIndexBuffer();
+            }
+            using (DataStream pdwData = pMesh.LockAttributeBuffer(D3D9.LockFlags.ReadOnly))
+            {
+                output.SetAttributeData(pdwData);
+                pMesh.UnlockAttributeBuffer();
+            }
+            #endregion
+            
+                        
+            D3D9.AttributeRange[] pAttr = pMesh.GetAttributeTable();
+            int dwNumAttr = pAttr.Length;            
+            gm.attrTable = new MeshAttributeRange[dwNumAttr];
+            gm.materials = new D3D9.ExtendedMaterial[dwNumAttr];
+            if (dwNumAttr > 0)
+            {
+                for (int i = 0; i < dwNumAttr; i++)
+                {
+                    gm.attrTable[i] = GetMeshAttribute(pAttr[i]);
+                    if (!string.IsNullOrEmpty(pMat[i].TextureFileName))
+                    {
+                        string inputFilePath = pMat[i].TextureFileName.Replace("\\\\", "\\");
+                        string inputFileName = Path.GetFileName(inputFilePath);
+                        string ext = Path.GetExtension(inputFileName);
+                        string subFolder = inputFilePath.Replace(sourceTextures, "").Split('\\')[1];
+                        string diffOutFile = subFolder + "\\" + inputFileName.Replace(ext, ".dds");                   		
+
+                        pMat[i].TextureFileName = diffOutFile;
+                        
+                        gm.materials[i] = pMat[i];
+                    }
+                }
+                output.SetAttributeTable(gm.attrTable);
+            }                    
+            
+
+            output.Commit();
+            pMesh.Dispose();
+
+            gm.meshObj = output;
+            gm.NumAttributes = dwNumAttr;            
+            
+            return gm;
+        }        
+
+
+        #region Helpers
+        private static ShaderResourceView GetTextureView(Device device, Texture2D t)
+        {
+            Texture2DDescription desc = t.Description;            
+            ShaderResourceViewDescription SRVDesc = new ShaderResourceViewDescription();
+            SRVDesc.Format = desc.Format;            
+            SRVDesc.Dimension = ShaderResourceViewDimension.Texture2D;
+            SRVDesc.MipLevels = desc.MipLevels;
+            SRVDesc.ArraySize = desc.ArraySize;
+            SRVDesc.ElementWidth = desc.Width;            
+            return new ShaderResourceView(device, t, SRVDesc);
+        }
+        private static MeshAttributeRange GetMeshAttribute(D3D9.AttributeRange src)
+        {
+            MeshAttributeRange o = new MeshAttributeRange();
+            o.FaceCount = src.FaceCount;
+            o.FaceStart = src.FaceStart;
+            o.Id = src.AttribId;
+            o.VertexCount = src.VertexCount;
+            o.VertexStart = src.VertexStart;            
+            return o;
+        }
+        private static D3D9.Mesh GetD3D9Mesh(string filename, out D3D9.ExtendedMaterial[] pMat, D3D9.VertexElement[] ie)
+        {            
+            D3D9.PresentParameters d3dpp = new D3D9.PresentParameters();
+            d3dpp.BackBufferWidth = 320;
+            d3dpp.BackBufferHeight = 240;
+            d3dpp.BackBufferFormat = D3D9.Format.X8R8G8B8;
+            d3dpp.BackBufferCount = 1;
+            d3dpp.Multisample = D3D9.MultisampleType.None;
+            d3dpp.MultisampleQuality = 0;
+            d3dpp.SwapEffect = D3D9.SwapEffect.Discard;
+            d3dpp.DeviceWindowHandle = IntPtr.Zero;
+            d3dpp.Windowed = true;
+            d3dpp.PresentFlags = D3D9.PresentFlags.None;
+            d3dpp.FullScreenRefreshRateInHertz = 0;
+            d3dpp.PresentationInterval = D3D9.PresentInterval.Default;
+            d3dpp.EnableAutoDepthStencil = false;
+
+            try
+            {
+                using (D3D9.Direct3D d3d = new D3D9.Direct3D())
+                {
+                    using (D3D9.Device d3ddev = new D3D9.Device(d3d, d3d.Adapters.DefaultAdapter.Adapter, D3D9.DeviceType.Hardware, IntPtr.Zero, D3D9.CreateFlags.HardwareVertexProcessing, d3dpp))
+                    {
+                        using (D3D9.Mesh rawMesh = D3D9.Mesh.FromFile(d3ddev, filename, (D3D9.MeshFlags)0))
+                        {
+                            pMat = rawMesh.GetMaterials();
+                            D3D9.Mesh pMesh = rawMesh.Clone(d3ddev, D3D9.MeshFlags.Managed, ie);
+
+                            //pMesh.ComputeTangentFrame(SlimDX.Direct3D9.TangentOptions.CalculateNormals | SlimDX.Direct3D9.TangentOptions.GenerateInPlace | SlimDX.Direct3D9.TangentOptions.WeightEqual);
+
+                            //pMesh.ComputeTangentFrame(0);
+
+                            try
+                            {
+                                D3D9.Mesh newMesh = pMesh.ComputeTangentFrame((int)D3D9.DeclarationUsage.TextureCoordinate, 0, (int)D3D9.DeclarationUsage.Binormal, 0,
+                                    (int)D3D9.DeclarationUsage.Tangent, 0, (int)D3D9.DeclarationUsage.Normal, 0, D3D9.TangentOptions.None,
+                                    0.01f, 0.25f, 0.01f);
+
+                                pMesh.Dispose();
+                                pMesh = null;
+
+                                pMesh = newMesh;
+                                pMesh.OptimizeInPlace(D3D9.MeshOptimizeFlags.AttributeSort);
+
+                                try
+                                {
+                                    //D3D9AllocateHierarchy ah = new D3D9AllocateHierarchy();
+                                    //root = D3D9.Frame.LoadHierarchyFromX(d3ddev, filename, D3D9.MeshFlags.Managed, ah, null, out ac);
+                                }
+                                catch { }
+                                
+                                return pMesh;
+                            }
+                            catch
+                            {                                
+                                Console.WriteLine("Failed computeTangent for: " + filename);
+
+                                return pMesh;
+                            }
+                            
+                        }
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                pMat = null;
+                return null; 
+            }
+            
+        }
+        #endregion
+
+
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public static class MeshInputElements9
+    {
+        public static D3D9.VertexElement[] NormalMesh = new D3D9.VertexElement[]
+        {
+            new D3D9.VertexElement(0, 0, D3D9.DeclarationType.Float3, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Position, 0),
+            new D3D9.VertexElement(0, 12, D3D9.DeclarationType.Float3, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Normal, 0),
+            new D3D9.VertexElement(0, 24, D3D9.DeclarationType.Float2, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.TextureCoordinate, 0),
+            new D3D9.VertexElement(0, 32, D3D9.DeclarationType.Float3, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Tangent, 0),
+            new D3D9.VertexElement(0, 44, D3D9.DeclarationType.Float3, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Binormal, 0),
+            D3D9.VertexElement.VertexDeclarationEnd,  
+        };
+
+        public static D3D9.VertexElement[] PositionOnly3 = new D3D9.VertexElement[]
+        {
+            new D3D9.VertexElement(0, 0, D3D9.DeclarationType.Float3, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Position, 0),            
+            D3D9.VertexElement.VertexDeclarationEnd,  
+        };
+
+        public static D3D9.VertexElement[] PositionOnly4 = new D3D9.VertexElement[]
+        {
+            new D3D9.VertexElement(0, 0, D3D9.DeclarationType.Float4, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Position, 0),            
+            D3D9.VertexElement.VertexDeclarationEnd,  
+        };
+
+        public static D3D9.VertexElement[] PosTex4 = new D3D9.VertexElement[]
+        {
+            new D3D9.VertexElement(0, 0, D3D9.DeclarationType.Float4, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Position, 0),            
+            new D3D9.VertexElement(0, 16, D3D9.DeclarationType.Float2, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.TextureCoordinate, 0),
+            D3D9.VertexElement.VertexDeclarationEnd,  
+        };
+
+        public static D3D9.VertexElement[] PositionOnlyInstanced = new D3D9.VertexElement[]
+        {
+            new D3D9.VertexElement(0, 0, D3D9.DeclarationType.Float3, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Position, 0),
+            new D3D9.VertexElement(1, 0, D3D9.DeclarationType.Float4, D3D9.DeclarationMethod.Default, D3D9.DeclarationUsage.Normal, 0),            
+            D3D9.VertexElement.VertexDeclarationEnd,           
+        };
+    }
+
+
+
+
+
+
+
+
+	        private static MeshAttributeRange GetMeshAttribute(D3D9.AttributeRange src)
+        {
+            MeshAttributeRange o = new MeshAttributeRange();
+            o.FaceCount = src.FaceCount;
+            o.FaceStart = src.FaceStart;
+            o.Id = src.AttribId;
+            o.VertexCount = src.VertexCount;
+            o.VertexStart = src.VertexStart;            
+            return o;
+        } 

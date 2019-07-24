@@ -1,0 +1,12 @@
+C:\roman\WeatherGame\ColorPickerControl\bin\Release\ColorPickerControl.dll
+C:\roman\WeatherGame\ColorPickerControl\bin\Release\ColorPickerControl.pdb
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ResolveAssemblyReference.cache
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ColorPickerDialog.g.cs
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ColorPickerControl_MarkupCompile.cache
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ColorPickerControl_MarkupCompile.lref
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ColorPickerDialog.baml
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\Themes\Generic.baml
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ColorPickerControl.g.resources
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ColorPickerControl.dll
+C:\roman\WeatherGame\ColorPickerControl\obj\Release\ColorPickerControl.pdb
